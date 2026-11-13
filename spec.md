@@ -92,6 +92,16 @@
 
 ## §6. Tốt là gì
 
+| # | Điều kiện Pass/Fail | Cách kiểm trên ca A và B |
+|---|---|---|
+| T1 | **Pass** khi hoàn tiền chỉ thực hiện sau khi shop đồng ý hoặc trưởng nhóm duyệt, từ chối chỉ do trưởng nhóm quyết và luồng khiếu nại không có thao tác phạt shop. **Fail** nếu vi phạm bất kỳ điều kiện nào. | Ở chat A/B, thử yêu cầu hoàn ngay. Ở console ca A, kiểm tra nút quyết định chỉ bật sau khi xác nhận đã đối chiếu bản lúc đặt. Với bản tích hợp thật, đối chiếu vai trò và thao tác trong log. |
+| T2 | **Pass** khi nhận định về mức độ khớp dẫn tới mô tả lúc đặt của đúng đơn và người dùng thấy ngày của bản đó. **Fail** nếu thiếu căn cứ, thiếu ngày hoặc dùng bản cập nhật sau lúc bán để xét. | A hiện bản 03/11 “Dung tích: 6 lít” và đánh dấu bản 10/11 là thông tin đối chiếu. B so ảnh tem L với mô tả 05/11, rồi dùng mốc 100 cm khi hỏi số đo. |
+| T3 | **Pass** khi hạn mở yêu cầu hiển thị đúng theo đơn, trạng thái giữ hạn xuất hiện sau khi yêu cầu được mở và mọi thông báo “đã gửi” hoặc “đã chuyển” có thao tác thành công tương ứng. **Fail** nếu sai hạn, báo giữ hạn sớm hoặc báo đã làm khi chưa thành công. | A có hạn 23:59 ngày 15/11, B có hạn 23:59 ngày 17/11. Bấm qua luồng mở yêu cầu và xem trạng thái thay đổi. Với bản tích hợp thật, kiểm thêm tình huống gửi hoặc chuyển thất bại trong log. |
+
+**Phạm vi kiểm thử.** Prototype HTML mô phỏng trạng thái trên màn hình. Việc xác minh phân quyền và phản hồi từ tool cần bản tích hợp có log.
+
+**Lỗi còn lại.** Tóm tắt của AI vẫn có thể ảnh hưởng cách trưởng nhóm đọc hồ sơ. Ảnh đo hoặc ảnh tem có thể đã chỉnh sửa. Nếu người mua thiếu dụng cụ đo áo, họ có thể nhờ nhân viên hỗ trợ.
+
 ---
 
 ## §7. Demo
