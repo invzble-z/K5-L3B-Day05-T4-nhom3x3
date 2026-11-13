@@ -6,13 +6,13 @@
 
 Bài nộp cần **danh sách thành viên** và **mỗi người làm gì**. Nhóm tự chia việc, không bắt buộc theo vai trò cố định. Ví dụ một cách chia (không bắt buộc): dựng prototype, viết câu chữ AI, giữ bảng kịch bản và kịch bản demo.
 
-**Lớp:** ____ · **Bàn / zone:** ____ · **Track:** ____
+**Lớp:** L3B · **Bàn / zone:** ____ · **Track:** T4 · Thương mại điện tử
 
 | Họ và Tên | Mã Học Viên | Việc đã làm |
 |---|---|---|
-|  |  |  |
-|  |  |  |
-|  |  |  |
+| Lê Phạm Thành Đạt | 2A202604027 |  |
+| Trần Đức Duy | 2A202604071 |  |
+| Nguyễn Khắc Bào | 2A202604072 |  |
 
 > Copy bảng này lên đầu `spec.md` và điền. Ghi cụ thể việc mỗi người làm — khi demo, ai cũng có thể bị hỏi về phần có tên mình.
 
