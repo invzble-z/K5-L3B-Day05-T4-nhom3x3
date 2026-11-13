@@ -19,6 +19,14 @@
 
 ## §1. Lát cắt & phạm vi
 
+**Lát cắt.** Track đặt tình huống trong “Trò chuyện với Shopee” và prototype minh họa bằng dữ liệu dựng của Sàn Mẫu. Khi người mua báo hàng nhận khác mô tả, trợ lý AI giúp họ xác định đúng đơn, mở yêu cầu trả hàng để giữ hạn, bổ sung bằng chứng hoặc gặp nhân viên. AI đối chiếu khiếu nại với mô tả lúc đặt hàng và xin thông tin từ người bán để hai bên đều có cơ hội đưa ra bằng chứng trước khi có quyết định.
+
+**Ba việc ngoài phạm vi**
+
+1. **Xử phạt hoặc khóa shop.** Khiếu nại của một đơn chưa đủ để xử phạt cả shop. Nếu có dấu hiệu hàng giả, bộ phận chuyên trách cần điều tra riêng.
+2. **Chia sẻ số điện thoại hoặc địa chỉ giữa hai bên.** Thông tin đã lộ khó thu hồi. Hai bên có thể trao đổi qua chat của sàn.
+3. **Tự quyết kết quả tranh chấp.** Hoàn nhầm có thể làm shop mất tiền và hàng, còn từ chối nhầm có thể làm người mua mất quyền trả hàng. Thẩm quyền của từng bên được ghi ở §4.
+
 ---
 
 ## §2. Kịch bản rủi ro
