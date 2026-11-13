@@ -50,9 +50,23 @@ Bây giờ: **13/11/2026 15:00**.
 
 ### Kịch bản B — #4 Áo tem L, người bán đúng
 
-### Nguyên tắc HAX/PAIR
+### Nguyên tắc HAX/PAIR (trỏ vào chỗ cụ thể — xem ảnh đánh số ở §5)
+
+- **G1 — Làm rõ AI làm được gì** *(kèm Luật AI 134/2025 Điều 11.1)* → dòng cố định ở đầu khung chat Màn 1, ngay trên ①: "Bạn đang trò chuyện với **trợ lý AI** của Sàn Mẫu. Quyết định hoàn tiền hay từ chối do shop hoặc nhân viên sàn đưa ra." Người mua biết mình đang nói với AI, và biết AI không phải người quyết.
+- **G2 — Làm rõ AI làm tốt đến đâu** → nhãn độ chắc ở đầu mỗi câu trả lời: "Chưa đủ căn cứ · cần người xét" (A) và "Tem khớp mô tả · chưa thấy căn cứ" (B). Ảnh ①. Ở Màn 2, dòng "AI không đề xuất ai đúng ở ca này". Ảnh ⑥.
+- **G11 — Giải thích vì sao** → thẻ so sánh "Mô tả lúc đặt vs hiện tại" có ngày sửa (A), và ảnh tem cạnh dòng mô tả (B). Ảnh ②. Ở Màn 2, phải tick "Tôi đã đối chiếu mô tả lúc đặt" thì mới mở được nút quyết định. Ảnh ⑤.
+- **G9 — Sửa dễ dàng / G8 — Gạt bỏ dễ dàng / G15 — Mời feedback chi tiết** → nút "AI hiểu sai? Sửa lại" (người mua chọn sai ở điểm nào, AI hỏi lại) và "Gặp nhân viên ngay" luôn hiện dưới câu trả lời. Ảnh ④.
+- **PAIR · Errors + Graceful Failure** → khi chưa đủ căn cứ, AI giữ hạn trả hàng và chỉ bước tiếp theo, không bỏ người mua lại. Thanh trạng thái 3 bước và chip "còn 2 ngày, đã giữ". Ảnh ③.
+
+**Soát câu AI nói (TV3 kiểm câu của ca A, ca B và prototype):**
+- *Không hứa liều:* AI chỉ nói "đã chuyển", "đã gửi" khi tool đã trả về thành công, có nhãn "AI đã tự chuyển / AI đã tự gửi" đi kèm. Câu "Bạn sẽ được hoàn 1.290.000đ" chỉ xuất hiện **sau khi** nhân viên bấm duyệt ở Màn 2, không bao giờ do AI tự nói trước.
+- *Minh bạch AI:* mọi tin của trợ lý có nhãn "Trợ lý AI · Sàn Mẫu", và dòng G1 luôn ở đầu khung chat.
 
 ### Lỗi mà sửa câu chữ không cứu được
+
+**"So với mô tả hiện tại"** (kịch bản A). Nếu tool đọc đơn chỉ trả về mô tả hiện tại thì prompt "hãy so với mô tả lúc đặt" cũng vô ích: AI **không có** dữ liệu lúc đặt, nên sẽ hoặc bịa, hoặc dùng bản đã sửa mà không biết là đã sửa. Câu chữ chỉ đổi được cách AI *nói*, không đổi được thứ AI *nhìn thấy*.
+
+**Thiết kế cứu:** nhóm thêm tool `xem_don_hang` (§4). Tool này trả **snapshot lúc đặt** cùng **lịch sử sửa có ngày giờ**, và luật xét chỉ được dùng snapshot. Trên màn hình, bản sửa hiện có gạch chân đỏ kèm dòng "không dùng để xét" (ảnh ②), để cả người mua lẫn trưởng nhóm thấy AI xét theo bản nào.
 
 ---
 
