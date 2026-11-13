@@ -54,6 +54,26 @@
 
 ### Kịch bản A — #3 Nồi chiên "6 lít", mô tả đã bị sửa
 
+**Lời thoại khi tiếp nhận**
+
+> Mình đã đối chiếu mô tả lúc bạn đặt ngày **03/11**. Bản đó ghi “Dung tích: 6 lít” và chưa nói rõ đây là dung tích tổng hay dung tích lòng nồi. Bản shop cập nhật ngày **10/11** ghi lòng nồi 5 lít. Nhân viên sẽ xét theo mô tả lúc bạn đặt.
+>
+> Hiện mình chưa đủ căn cứ để kết luận. Bạn có thể mở yêu cầu trước **23:59 ngày 15/11** để giữ hạn, rồi gửi ảnh đo lòng nồi có vạch đo rõ. Khi yêu cầu được mở, mình sẽ xin thông số của nhà sản xuất từ shop.
+
+**Luồng xử lý**
+
+1. Chat đặt hai bản mô tả cạnh nhau và đánh dấu bản ngày 03/11 là căn cứ xét. Hiện trạng thái “Chưa đủ căn cứ” và hạn của đơn DH-4417. Người mua có thể sửa thông tin AI hiểu sai hoặc nhờ nhân viên ngay.
+2. Khi người mua mở yêu cầu thành công, hiển thị xác nhận giữ hạn. Sau đó gọi `yeu_cau_bang_chung` bằng mẫu trung lập. Shop có 48 giờ để phản hồi.
+3. Khi có bằng chứng hai bên hoặc shop hết 48 giờ chưa phản hồi, chuyển hồ sơ cho trưởng nhóm. Hồ sơ gồm bản lúc đặt, lịch sử sửa, bằng chứng hiện có và tóm tắt trung lập. Trưởng nhóm phản hồi trong 24 giờ kể từ lúc nhận hồ sơ. AI xác nhận đã gửi hoặc đã chuyển sau khi thao tác tương ứng thành công.
+
+**Quyết định.** Nhóm cân nhắc việc chỉ hỏi lại, giải thích giới hạn rồi thu thập bằng chứng, chuyển người ngay, hoặc để AI tự kết luận. Chọn **giải thích giới hạn rồi thu thập bằng chứng trước khi chuyển người** vì người mua có thể giữ hạn ngay và trưởng nhóm có dữ liệu để đối chiếu.
+
+- **Chỉ hỏi lại:** Đơn và điểm tranh chấp đã rõ. Cần xin đúng bằng chứng để làm sáng tỏ ý nghĩa của “6 lít”.
+- **Chuyển người ngay:** Đây là lựa chọn của người mua. Làm mặc định sẽ khiến nhân viên nhận hồ sơ thiếu thông số mà AI có thể xin trước.
+- **AI tự kết luận:** Cả hai cách hiểu đều có thể đúng. Phán sai có thể làm người mua mất quyền trả hàng hoặc làm shop mất tiền và hàng.
+
+**Loại lỗi.** Dùng bản mô tả hiện tại để xét là lỗi hệ thống về nguồn dữ liệu. Cụm “6 lít” trong bản lúc đặt là điểm mơ hồ về ngữ cảnh. Cần giữ đúng bản ghi lúc đặt và bổ sung bằng chứng để người có thẩm quyền xem xét.
+
 ### Kịch bản B — #4 Áo tem L, người bán đúng
 
 ### Nguyên tắc HAX/PAIR
