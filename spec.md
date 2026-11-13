@@ -1,6 +1,6 @@
 # Bài nộp LAB5 — T4 Thương mại điện tử · Nhóm nhom3x3
 
-**Lớp:** L3B · **Bàn / zone:** ____ · **Track:** T4 Thương mại điện tử
+**Lớp:** L3B · **Bàn / zone:** 6 · **Track:** T4 Thương mại điện tử
 
 | Họ và Tên | Mã Học Viên | Việc đã làm |
 |---|---|---|
