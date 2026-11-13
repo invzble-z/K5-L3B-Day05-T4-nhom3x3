@@ -116,7 +116,9 @@ body.hide-n .n{display:none}
 .cbody{padding:16px;display:flex;flex-direction:column;gap:10px;background:#f8fbff}
 .kv{font-size:12.5px;color:var(--mut)}.kv b{color:var(--ink);font-weight:600;margin-right:4px}
 .sec{border:1px solid var(--line);border-radius:14px;padding:11px 12px;background:#fff;font-size:13px}
-.sec h3{margin:0 0 6px;font-size:12.5px;display:flex;align-items:center}
+.sec h3{margin:0 0 6px;font-size:12.5px;display:flex;align-items:center;gap:4px}
+.sec.rec{border-color:#f6d58e;background:#fffbf0}
+.mut{color:var(--mut);font-style:italic}
 label.chk{display:flex;gap:8px;align-items:flex-start;font-size:13px}
 label.chk input{accent-color:var(--blue);margin-top:3px}
 .foot{color:var(--mut);font-size:11.5px;text-align:center;padding:0 24px 24px}
@@ -183,7 +185,7 @@ label.chk input{accent-color:var(--blue);margin-top:3px}
         <li><span class="n">3</span><span><b>PAIR</b>Đường lui, giữ hạn</span></li>
         <li><span class="n">4</span><span><b>G8·G9·G15</b>Sửa AI, gặp người</span></li>
         <li><span class="n">5</span><span><b>G11</b>Đối chiếu trước khi quyết</span></li>
-        <li><span class="n">6</span><span><b>G2</b>Không gợi ý ai đúng</span></li>
+        <li><span class="n">6</span><span><b>G2</b>Đề xuất · có thể sai</span></li>
       </ul>
     </div>
   </aside>
@@ -384,8 +386,8 @@ function caseFile(){
   const id=S.opened?k.req:'CT-2207';
   const shop=S.shopReplied;
   if(C==='A')return{id,
-    summary:'Người mua: đo lòng nồi được 5 lít, cho rằng không đúng “6 lít”. '+(shop?'Shop: thông số nhà sản xuất là tổng 6L, lòng nồi 5L.':'Shop chưa phản hồi.')+
-      '<br><b>AI không đề xuất ai đúng ở ca này</b>, vì mô tả lúc đặt không nói rõ “6 lít” là dung tích tổng hay lòng nồi.',
+    summary:'Người mua: đo lòng nồi được 5 lít, cho rằng không đúng “6 lít”. '+(shop?'Shop: thông số nhà sản xuất là tổng 6L, lòng nồi 5L.':'Shop chưa phản hồi.'),
+    rec:'Nghiêng <b>từ chối</b>: “dung tích” thường ghi theo dung tích tổng, nhưng mô tả lúc đặt không nói rõ nên đề xuất này có thể sai.',
     cmp:`<div class="used"><div class="h">Lúc đặt · 03/11 (dùng để xét)</div>“Dung tích: 6 lít”</div>
       <div><div class="h">Hiện tại · sửa 10/11</div><span class="edited"><u>“Dung tích tổng 6L · lòng nồi 5L”</u></span></div>`,
     ev:[S.photo?'📷 do_long_noi.jpg (người mua)':'người mua chưa gửi ảnh',shop?'📄 thong_so_NSX.pdf (shop)':'shop chưa phản hồi'],
@@ -395,8 +397,10 @@ function caseFile(){
       more:'Nhân viên sàn cần thêm một ảnh đo lòng nồi bằng vạch nước.'}};
   return{id,
     summary:'Người mua: áo tem L mặc chật, cho rằng không đúng mô tả. Tem áo ghi L, khớp mô tả lúc đặt. '+
-      (S.cm?`Số đo người mua gửi: <b>${S.cm} cm</b> (mô tả lúc đặt: 100 cm). `:'Người mua chưa gửi số đo. ')+(shop?'Shop: bảng size L có vòng ngực 100 cm.':'Shop chưa phản hồi.')+
-      '<br><b>AI không đề xuất ai đúng ở ca này</b>; nhân viên đối chiếu số đo với mô tả lúc đặt.',
+      (S.cm?`Số đo người mua gửi: <b>${S.cm} cm</b> (mô tả lúc đặt: 100 cm). `:'Người mua chưa gửi số đo. ')+(shop?'Shop: bảng size L có vòng ngực 100 cm.':'Shop chưa phản hồi.'),
+    rec:!S.cm?'Nghiêng <b>từ chối</b>: tem L khớp mô tả, nhưng người mua chưa gửi số đo nên đề xuất này dễ sai.'
+      :S.cm<98?`Nghiêng <b>hoàn tiền</b>: số đo ${S.cm} cm nhỏ hơn mô tả ${(100-S.cm).toFixed(0)} cm, nhưng AI không kiểm được ảnh đo là thật.`
+      :`Nghiêng <b>từ chối</b>: tem L và số đo ${S.cm} cm không nhỏ hơn mô tả, nhưng AI không kiểm được cách đo.`,
     cmp:`<div class="used"><div class="h">Lúc đặt · 05/11 (dùng để xét)</div>“Size L · vòng ngực 100 cm”</div>
       <div><div class="h">Hiện tại</div>Không đổi</div>`,
     ev:['📷 tem_ao.jpg (người mua)',S.cm?`số đo ${S.cm} cm (người mua)`:'người mua chưa gửi số đo',shop?'📄 bang_size.png (shop)':'shop chưa phản hồi'],
@@ -414,13 +418,14 @@ function renderConsole(){
   cb.innerHTML=`
   <div class="kv"><b>Hồ sơ</b> ${f.id}${S.opened?'':' (người mua chưa mở yêu cầu)'} · ${o.id} · ${o.name} · ${o.price}</div>
   <div class="kv"><b>Hạn người mua</b> ${S.opened?'đã giữ (mở yêu cầu 13/11)':'chưa giữ · hết hạn '+o.deadline} · <b>Hạn trả lời</b> 15:00 14/11</div>
-  <div class="sec"><h3><span class="n">6</span>Tóm tắt trung lập của AI</h3>${f.summary}</div>
+  <div class="sec"><h3>Tóm tắt của AI</h3>${f.summary}</div>
   <div class="sec"><h3><span class="n">5</span>Đối chiếu mô tả</h3>
     <div class="cmp">${f.cmp}</div>
     Bằng chứng: ${f.ev.join(' · ')}${S.extra?` · 📷 ${CASE[C].extraFile} (người mua, bổ sung)`:''}</div>
   ${S.decided?'<div class="box ok">Hồ sơ đã có quyết định cuối.</div>':''}
   ${S.needMore?`<div class="box warn">Đang chờ người mua bổ sung ${CASE[C].more}. Các nút quyết định mở lại khi có ảnh mới.</div>`:''}
   <label class="chk"><input type="checkbox" id="ack"><span>Tôi đã đối chiếu với <b>mô tả lúc đặt</b>, không phải mô tả hiện tại.</span></label>
+  <div class="sec rec"><h3><span class="n">6</span>Đề xuất của AI <span class="lvl l-ask">có thể sai</span></h3><div id="recTxt" class="mut">Tự đối chiếu trước, đề xuất hiện sau khi tick.</div></div>
   <div class="btns">
     <button class="btn pri" disabled data-d="refund">Duyệt hoàn tiền</button>
     <button class="btn out" disabled data-d="reject">Từ chối khiếu nại</button>
@@ -428,7 +433,12 @@ function renderConsole(){
   </div>
   <div style="font-size:12px;color:var(--mut)"><span class="lvl l-ask">thuc_hien_hoan_tien: cần duyệt</span> <span class="lvl l-no">tu_choi_khieu_nai: chỉ người làm</span></div>
   <div id="cres"></div>`;
-  $('#ack').onchange=e=>cb.querySelectorAll('[data-d]').forEach(b=>b.disabled=!e.target.checked||!!S.decided||!!S.needMore);
+  $('#ack').onchange=e=>{
+    cb.querySelectorAll('[data-d]').forEach(b=>b.disabled=!e.target.checked||!!S.decided||!!S.needMore);
+    // Đề xuất chỉ hiện sau khi nhân viên tự đối chiếu, để giảm anchoring
+    $('#recTxt').innerHTML=e.target.checked?f.rec:'Tự đối chiếu trước, đề xuất hiện sau khi tick.';
+    $('#recTxt').classList.toggle('mut',!e.target.checked);
+  };
   cb.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>decide(b.dataset.d));
 }
 function decide(d){
@@ -464,7 +474,7 @@ $('#send').onclick=()=>{const v=$('#free').value.trim();if(v){free(v);$('#free')
 $('#free').onkeydown=e=>{if(e.key==='Enter')$('#send').click()};
 reset();
 // Mở index.html#console để vào thẳng Màn 2 với hồ sơ ca A đã đủ bằng chứng (dùng khi chụp ảnh / demo nhanh)
-if(location.hash==='#console'){openReq();sendPhoto();shopReply();goScreen('console')}
+if(location.hash==='#console'){openReq();sendPhoto();shopReply();goScreen('console');$('#ack').click()}
 </script>
 </body>
 </html>

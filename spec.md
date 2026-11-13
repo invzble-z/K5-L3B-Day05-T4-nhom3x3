@@ -83,7 +83,7 @@ Bây giờ: **13/11/2026 15:00**.
 
 1. Chat đặt hai bản mô tả cạnh nhau và đánh dấu bản ngày 03/11 là căn cứ xét. Hiện trạng thái “Chưa đủ căn cứ” và hạn của đơn DH-4417. Người mua có thể sửa thông tin AI hiểu sai hoặc nhờ nhân viên ngay.
 2. Khi người mua mở yêu cầu thành công, hiển thị xác nhận giữ hạn. Sau đó gọi `yeu_cau_bang_chung` bằng mẫu trung lập. Shop có 48 giờ để phản hồi.
-3. Khi có bằng chứng hai bên hoặc shop hết 48 giờ chưa phản hồi, chuyển hồ sơ cho trưởng nhóm. Hồ sơ gồm bản lúc đặt, lịch sử sửa, bằng chứng hiện có và tóm tắt trung lập. Trưởng nhóm phản hồi trong 24 giờ kể từ lúc nhận hồ sơ. AI xác nhận đã gửi hoặc đã chuyển sau khi thao tác tương ứng thành công.
+3. Khi có bằng chứng hai bên hoặc shop hết 48 giờ chưa phản hồi, chuyển hồ sơ cho trưởng nhóm. Hồ sơ gồm bản lúc đặt, lịch sử sửa, bằng chứng hiện có, tóm tắt và **một câu đề xuất của AI có nhãn "có thể sai"** (xem §4). Trưởng nhóm phản hồi trong 24 giờ kể từ lúc nhận hồ sơ. AI xác nhận đã gửi hoặc đã chuyển sau khi thao tác tương ứng thành công.
 
 **Quyết định.** Nhóm cân nhắc việc chỉ hỏi lại, giải thích giới hạn rồi thu thập bằng chứng, chuyển người ngay, hoặc để AI tự kết luận. Chọn **giải thích giới hạn rồi thu thập bằng chứng trước khi chuyển người** vì người mua có thể giữ hạn ngay và trưởng nhóm có dữ liệu để đối chiếu.
 
@@ -147,7 +147,7 @@ Câu này **không hứa** hoàn tiền và **không kết luận** shop đúng,
 ### Nguyên tắc HAX/PAIR (trỏ vào chỗ cụ thể — xem ảnh đánh số ở §5)
 
 - **G1 — Làm rõ AI làm được gì** *(kèm Luật AI 134/2025 Điều 11.1)* → dòng cố định ở đầu khung chat Màn 1, ngay trên ①: "Bạn đang trò chuyện với **trợ lý AI** của Sàn Mẫu. Quyết định hoàn tiền hay từ chối do shop hoặc nhân viên sàn đưa ra." Người mua biết mình đang nói với AI, và biết AI không phải người quyết.
-- **G2 — Làm rõ AI làm tốt đến đâu** → nhãn độ chắc ở đầu mỗi câu trả lời: "Chưa đủ căn cứ · cần người xét" (A) và "Tem khớp mô tả · chưa thấy căn cứ" (B). Ảnh ①. Ở Màn 2, dòng "AI không đề xuất ai đúng ở ca này". Ảnh ⑥.
+- **G2 — Làm rõ AI làm tốt đến đâu** → nhãn độ chắc ở đầu mỗi câu trả lời: "Chưa đủ căn cứ · cần người xét" (A) và "Tem khớp mô tả · chưa thấy căn cứ" (B). Ảnh ①. Ở Màn 2, đề xuất của AI luôn gắn nhãn **"có thể sai"** và nói rõ điều gì khiến nó sai. Ảnh ⑥.
 - **G11 — Giải thích vì sao** → thẻ so sánh "Mô tả lúc đặt vs hiện tại" có ngày sửa (A), và ảnh tem cạnh dòng mô tả (B). Ảnh ②. Ở Màn 2, phải tick "Tôi đã đối chiếu mô tả lúc đặt" thì mới mở được nút quyết định. Ảnh ⑤.
 - **G9 — Sửa dễ dàng / G8 — Gạt bỏ dễ dàng / G15 — Mời feedback chi tiết** → nút "AI hiểu sai? Sửa lại" (người mua chọn sai ở điểm nào, AI hỏi lại) và "Gặp nhân viên ngay" luôn hiện dưới câu trả lời. Ảnh ④.
 - **PAIR · Errors + Graceful Failure** → khi chưa đủ căn cứ, AI giữ hạn trả hàng và chỉ bước tiếp theo, không bỏ người mua lại. Thanh trạng thái 3 bước và chip "còn 2 ngày, đã giữ". Ảnh ③.
@@ -194,7 +194,9 @@ Ba thành viên xếp lệch nhau:
 
 **Nhóm chốt: cấm với AI**, kèm hai luật:
 1. Người mua không bổ sung bằng chứng sau 72 giờ thì AI nhắc một lần, rồi chuyển hồ sơ cho trưởng nhóm. Không tự đóng.
-2. Trong hồ sơ gửi trưởng nhóm, AI chỉ viết **tóm tắt trung lập** (hai bên nói gì, khớp hay không khớp với snapshot), **không** viết "đề xuất: từ chối".
+2. Trong hồ sơ gửi trưởng nhóm, AI được ghi **một câu đề xuất** (nghiêng hoàn tiền / nghiêng từ chối) kèm lý do và **điều có thể làm đề xuất sai**, gắn nhãn "có thể sai". Đề xuất **chỉ hiện sau khi** trưởng nhóm tick "đã tự đối chiếu mô tả lúc đặt", để giảm anchoring. AI vẫn không có nút quyết định.
+
+*Vì sao nhóm đổi từ "không đề xuất" sang "đề xuất có nhãn có thể sai":* để trưởng nhóm thấy **chỗ AI có thể sai** thay vì để AI giấu nhận định trong cách tóm tắt. Ở ca A, AI nghiêng **từ chối** vì cho rằng "6 lít" là dung tích tổng, đúng kiểu sai ở #3: nếu trưởng nhóm bấm theo mà không tự đối chiếu, người mua mất 1,29 triệu. Ở ca B với số đo 92 cm, AI nghiêng **hoàn tiền** nhưng không kiểm được ảnh đo là thật. Đổi lại, nhóm chấp nhận rủi ro anchoring và giảm nó bằng thứ tự hiển thị (tự đối chiếu trước, xem đề xuất sau).
 
 Lý do: cái giá phía chọn "cấm" (shop chờ thêm khoảng 24 giờ, tiền không mất) **rẻ hơn** cái giá phía chọn "tự làm" (người mua mất 1,29 triệu ở #3, không đảo được).
 
@@ -235,7 +237,7 @@ Khi tách `soan_hoan_tien` thành "soạn" (tự làm) và "thực hiện" (cầ
 | ③ | Thanh trạng thái 3 bước + chip "Hạn trả hàng còn 2 ngày · đến 23:59 15/11". Dòng "Hoàn tiền: cần shop hoặc nhân viên duyệt · AI không có nút hoàn" | PAIR Errors + Graceful Failure | `yeu_cau_bang_chung`: tự làm (nhãn "AI đã tự gửi") · `thuc_hien_hoan_tien`: cần duyệt, **không có nút cho AI** |
 | ④ | Nút "AI hiểu sai? Sửa lại" (chọn sai ở điểm nào) và "Gặp nhân viên ngay" | G9 · G8 · G15 | `chuyen_truong_nhom`: tự làm |
 | ⑤ | Console: nút Duyệt hoàn / Từ chối chỉ có ở đây, chỉ mở khoá sau khi tick "Tôi đã đối chiếu mô tả lúc đặt" | G11 | `thuc_hien_hoan_tien`: cần duyệt · `tu_choi_khieu_nai`: chỉ người làm |
-| ⑥ | Tóm tắt trung lập: "AI không đề xuất ai đúng ở ca này" | G2 · chống anchoring | luật ở §4 |
+| ⑥ | Đề xuất của AI một câu, nhãn "có thể sai", chỉ hiện sau khi tick đối chiếu. Ca A: nghiêng từ chối; ca B: theo số đo | G2 · G11 · giảm anchoring | luật ở §4 (quyết định vẫn của người) |
 
 **Quyết định — cách hiện độ chắc / bằng chứng (4 ý):**
 - **Đã cân nhắc:** (a) phần trăm độ tin cậy ("72%") · (b) nhãn bằng chữ + bằng chứng đặt cạnh nhau · (c) chỉ hiện kết luận, ẩn bản mô tả đã sửa.
@@ -266,7 +268,7 @@ Khi tách `soan_hoan_tien` thành "soạn" (tự làm) và "thực hiện" (cầ
 
 **Phạm vi kiểm thử.** Prototype HTML mô phỏng trạng thái trên màn hình. Việc xác minh phân quyền và phản hồi từ tool cần bản tích hợp có log.
 
-**Lỗi còn lại.** Tóm tắt của AI vẫn có thể ảnh hưởng cách trưởng nhóm đọc hồ sơ. Ảnh đo hoặc ảnh tem có thể đã chỉnh sửa. Nếu người mua thiếu dụng cụ đo áo, họ có thể nhờ nhân viên hỗ trợ.
+**Lỗi còn lại.** Đề xuất của AI vẫn có thể kéo trưởng nhóm bấm theo (anchoring), dù chỉ hiện sau khi họ tự đối chiếu; ở ca A đề xuất "từ chối" có thể sai. Ảnh đo hoặc ảnh tem có thể đã chỉnh sửa. Nếu người mua thiếu dụng cụ đo áo, họ có thể nhờ nhân viên hỗ trợ.
 
 ---
 

@@ -33,6 +33,6 @@
 | ③ | Thanh trạng thái 3 bước + chip hạn đã giữ. Dòng "Hoàn tiền: cần shop hoặc nhân viên duyệt · AI không có nút hoàn" | PAIR Errors + Graceful Failure | `yeu_cau_bang_chung`: tự làm · `thuc_hien_hoan_tien`: cần duyệt |
 | ④ | Nút "AI hiểu sai? Sửa lại" (chọn sai ở điểm nào) và "Gặp nhân viên ngay" | G9 · G8 · G15 | `chuyen_truong_nhom`: tự làm |
 | ⑤ | Console: phải tick "đã đối chiếu mô tả lúc đặt" thì mới mở được nút quyết định | G11 | `thuc_hien_hoan_tien`: cần duyệt · `tu_choi_khieu_nai`: chỉ người làm |
-| ⑥ | Tóm tắt trung lập: "AI không đề xuất ai đúng ở ca này" | G2 · chống anchoring | luật ở `spec.md` §4 |
+| ⑥ | Đề xuất của AI (một câu, nhãn "có thể sai"), chỉ hiện sau khi tick đối chiếu | G2 · G11 · giảm anchoring | luật ở `spec.md` §4 |
 
 Cột phải của cả hai màn: lời hứa với người mua, mức tự chủ của 7 tool chia 3 cột (rê chuột lên tool để xem lý do) và chú thích ①–⑥. Công tắc **①–⑥** trên thanh trên cùng bật/tắt các số; nút **↺** làm lại ca.
