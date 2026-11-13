@@ -13,7 +13,26 @@
 
 ---
 
-## §0. Dữ liệu dựng nhóm dùng
+## §0. Dữ liệu dựng nhóm dùng (tự sinh, vì track T4 không cấp fixture)
+
+Bây giờ: **13/11/2026 15:00**.
+
+**Chính sách dựng của "Sàn Mẫu"** (khác chính sách thật của Shopee):
+- Người mua mở yêu cầu trả hàng trong **7 ngày kể từ ngày nhận**. Đã mở yêu cầu thì hạn được giữ, kể cả khi đang chờ xét.
+- Người bán có **48 giờ** để phản hồi một yêu cầu. Quá hạn không phản hồi thì hồ sơ lên trưởng nhóm.
+- Trưởng nhóm trả lời trong **24 giờ** kể từ khi nhận hồ sơ.
+- Hệ thống lưu **bản chụp mô tả lúc đặt hàng** (snapshot) và lịch sử sửa mô tả.
+
+| | Đơn A · DH-4417 | Đơn B · DH-4502 |
+|---|---|---|
+| Sản phẩm | Nồi chiên không dầu KitchenMau | Áo thun nam basic |
+| Shop | Gia Dụng Mẫu | Thời Trang Mẫu |
+| Giá | 1.290.000đ | 189.000đ |
+| Đặt / nhận | đặt 03/11 · nhận 08/11 | đặt 05/11 · nhận 10/11 |
+| Hạn trả hàng | **15/11 23:59** (còn 2 ngày) | **17/11 23:59** (còn 4 ngày) |
+| Mô tả **lúc đặt** (snapshot) | "Dung tích: 6 lít" | "Size L · vòng ngực 100 cm" |
+| Mô tả **hiện tại** | "Dung tích tổng 6L · lòng nồi 5L" — **sửa 10/11**, sau khi người mua đặt | không đổi |
+| Bằng chứng người mua | chưa có | ảnh tem áo ghi **L** |
 
 ---
 
