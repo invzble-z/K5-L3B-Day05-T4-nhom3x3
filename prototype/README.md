@@ -14,7 +14,7 @@
 4. Bấm **"Xem Màn 2 · Console trưởng nhóm"**. Tick ô "đã đối chiếu mô tả lúc đặt" để mở khoá nút, rồi chọn Duyệt hoàn / Từ chối / Xin thêm bằng chứng.
 5. Bấm **"← Xem người mua thấy gì"** để xem kết quả nhân viên gửi cho người mua.
 
-**Ca B: áo tem L, người bán đúng.** Chọn ca B, nhập số đo vòng ngực. Dưới 98 cm thì AI báo đã đủ căn cứ và hiện nút "Mở yêu cầu trả hàng" để **người mua tự bấm**; sau đó AI mới tự gửi mẫu xin bằng chứng cho shop. Từ 98 cm trở lên thì khiếu nại vẫn mở, AI không từ chối.
+**Ca B: áo tem L, người bán đúng.** Chọn ca B, nhập số đo vòng ngực. Dưới 98 cm thì AI báo đã đủ căn cứ và hiện nút "Mở yêu cầu trả hàng" để **người mua tự bấm**; sau đó AI mới tự gửi mẫu xin bằng chứng cho shop. Từ 98 cm trở lên thì khiếu nại vẫn mở, AI không từ chối. Sau khi mở yêu cầu: bấm "⏩ Giả lập: shop gửi phản hồi" → "Xem Màn 2" để nhân viên duyệt, từ chối hoặc xin thêm ảnh, giống ca A. Bấm "Gặp nhân viên ngay" ở bất kỳ lúc nào thì hồ sơ cũng hiện trên Màn 2.
 
 **Ca lạ:** gõ vào ô dưới khung chat. Prototype nhận các loại: lời doạ bóc phốt, xin số điện thoại shop, nghi hàng giả hoặc đòi khoá shop, người tự xưng nhân viên, đòi hoàn ngay, hỏi hạn. Tin không khớp loại nào thì AI hỏi lại một câu (đơn nào, sai ở điểm nào), kèm nút gặp nhân viên.
 

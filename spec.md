@@ -115,7 +115,8 @@ Câu này **không hứa** hoàn tiền và **không kết luận** shop đúng,
 **Làm gì tiếp:**
 - **Gửi số đo:**
   - Dưới 98 cm: AI nói đã đủ căn cứ và hiện nút **"Mở yêu cầu trả hàng (giữ hạn)"**. **Người mua tự bấm**, giống ca A, vì không tool nào trong 7 tool cho AI mở yêu cầu. Sau khi người mua mở, AI mới tự gửi `yeu_cau_bang_chung` cho shop (đúng luật ở §4). Hoàn tiền vẫn **cần shop hoặc nhân viên duyệt**.
-  - Từ 98 cm trở lên: AI nói số đo khớp và giữ nguyên khiếu nại (không đóng).
+  - Từ 98 đến 102 cm: AI nói số đo khớp mô tả. Trên 102 cm: AI nói áo không nhỏ hơn mô tả. Cả hai trường hợp đều giữ nguyên khiếu nại (không đóng) và chỉ đường gặp nhân viên.
+  - Số đo ngoài khoảng 50–150 cm bị từ chối nhận, kèm lời nhắc nhập lại. Mỗi lần chỉ nhận một số đo.
 - **④ "Gặp nhân viên ngay"** (`chuyen_truong_nhom`).
 - **④ "AI hiểu sai? Sửa lại"**: người mua chọn AI sai ở điểm nào.
 - **Nếu không làm gì:** khiếu nại vẫn mở tới hết hạn 23:59 17/11. AI không tự đóng.

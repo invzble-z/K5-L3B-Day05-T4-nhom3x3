@@ -163,16 +163,23 @@ const ORDERS={
   B:{icon:'👕',name:'Áo thun nam basic · Size L',shop:'Thời Trang Mẫu',id:'DH-4502',price:'189.000đ',recv:'10/11',deadline:'23:59 17/11',left:'4 ngày'}
 };
 
+// Thông tin riêng của từng ca, dùng chung cho thanh trạng thái, console và tin nhắn nhân viên
+const CASE={
+  A:{req:'#YC-0912',ev:'ảnh',more:'ảnh đo bằng vạch nước',extraFile:'do_vach_nuoc.jpg',
+     shopMsg:'Shop Gia Dụng Mẫu đã gửi phản hồi: “Thông số nhà sản xuất: dung tích tổng 6L, lòng nồi 5L” (kèm ảnh tài liệu).'},
+  B:{req:'#YC-0931',ev:'số đo',more:'ảnh đo vòng ngực có thước',extraFile:'do_vong_nguc.jpg',
+     shopMsg:'Shop Thời Trang Mẫu đã gửi phản hồi: “Áo size L theo bảng size của shop có vòng ngực 100 cm” (kèm bảng size).'}
+};
 function add(html,cls){const d=document.createElement('div');d.className=cls;d.innerHTML=html;chat.appendChild(d);chat.scrollTop=chat.scrollHeight;return d}
 function me(t){add(esc(t),'me')}
 function ai(html){return add('<div class="who">Trợ lý AI · Sàn Mẫu</div>'+html,'ai')}
 function staff(html){return add('<div class="who">Nhân viên sàn (người thật)</div>'+html,'staff')}
 
 function stepsHTML(){
-  const o=ORDERS[C];
+  const o=ORDERS[C], k=CASE[C];
   const st=[
     {t:'Bạn mở yêu cầu trả hàng (giữ hạn đến '+o.deadline+')',d:S.opened},
-    {t:S.needMore?'Nhân viên cần thêm ảnh đo bằng vạch nước của bạn':'Bằng chứng: ảnh của bạn'+(S.photo?' ✓':'')+' · shop phản hồi trong 48 giờ'+(S.shopReplied?' ✓':''),d:S.photo&&S.shopReplied&&!S.needMore},
+    {t:S.needMore?`Nhân viên cần thêm ${k.more} của bạn`:`Bằng chứng: ${k.ev} của bạn`+(S.photo?' ✓':'')+' · shop phản hồi trong 48 giờ'+(S.shopReplied?' ✓':''),d:S.photo&&S.shopReplied&&!S.needMore},
     {t:'Nhân viên sàn quyết (trả lời trong 24 giờ)',d:!!S.decided}
   ];
   let nowSet=false;
@@ -195,15 +202,22 @@ function toggleMenu(b){b.closest('div').nextElementSibling.classList.toggle('sho
 function correct(t){
   me(t);
   ai(`<span class="badge b-warn"><span class="n">1</span>Mình có thể đã hiểu sai</span><br>Cảm ơn bạn đã sửa. Mình <b>chưa</b> gửi gì cho shop dựa trên ý vừa rồi. Bạn cho mình biết đúng ra là sai ở điểm nào (ví dụ: màu, chất liệu, thiếu phụ kiện), hoặc chọn đơn khác:
-  <div class="btns"><button class="btn" onclick="me('DH-4417 · Nồi chiên')">DH-4417 · Nồi chiên</button><button class="btn" onclick="me('DH-4502 · Áo thun')">DH-4502 · Áo thun</button></div>
+  <div class="btns"><button class="btn" onclick="pickOrder('DH-4417 · Nồi chiên')">DH-4417 · Nồi chiên</button><button class="btn" onclick="pickOrder('DH-4502 · Áo thun')">DH-4502 · Áo thun</button></div>
   <div style="font-size:12px;color:var(--mut);margin-top:4px">Phản hồi “sai chỗ nào” của bạn được ghi lại để cải thiện trợ lý (G15).</div>`);
 }
+function pickOrder(t){
+  me(t);
+  ai(`Cảm ơn bạn. Mình sẽ xét theo đơn <b>${t.split(' ·')[0]}</b> và <b>mô tả lúc bạn đặt</b> của đơn đó. Bạn cho mình biết món hàng khác mô tả ở điểm nào nhé. Mình <b>chưa</b> gửi gì cho shop.`);
+}
+function openReqCur(){C==='A'?openReq():openReqB()}
 function toStaff(){
   if(S.staffed){ai('Hồ sơ đã ở chỗ nhân viên sàn rồi; họ trả lời trước <b>15:00 14/11</b>.');return}
-  S.staffed=true;
+  S.staffed=true; S.esc=true;
   me('Cho mình gặp nhân viên');
   ai(`Mình đã chuyển cuộc trò chuyện cho nhân viên sàn <span class="lvl l-auto">AI đã tự chuyển</span> (mã CT-2207). Nhân viên trả lời trước <b>15:00 14/11</b> (trong 24 giờ).<br>
-  Trong lúc chờ, hạn trả hàng của bạn vẫn là <b>${ORDERS[C].deadline}</b>. ${S.opened?'Yêu cầu đã mở nên hạn đã được giữ.':'Bạn nên mở yêu cầu để giữ hạn.'}`);
+  Trong lúc chờ, hạn trả hàng của bạn vẫn là <b>${ORDERS[C].deadline}</b>. ${S.opened?'Yêu cầu đã mở nên hạn đã được giữ.':'Bạn nên mở yêu cầu để giữ hạn.'}
+  ${S.opened?'':'<div class="btns"><button class="btn pri" onclick="this.disabled=true;openReqCur()">Mở yêu cầu trả hàng (giữ hạn)</button></div>'}
+  <div class="demo">Điều khiển demo: <button class="btn" onclick="goScreen('console')">Xem Màn 2 · Console trưởng nhóm →</button></div>`);
 }
 
 /* ---------- CASE A ---------- */
@@ -242,7 +256,7 @@ function sendPhoto(){
 }
 function shopReply(){
   if(S.shopReplied)return; S.shopReplied=true;
-  add('<div class="who">Hệ thống</div>Shop Gia Dụng Mẫu đã gửi phản hồi: “Thông số nhà sản xuất: dung tích tổng 6L, lòng nồi 5L” (kèm ảnh tài liệu).','ai');
+  add('<div class="who">Hệ thống</div>'+CASE[C].shopMsg,'ai');
   refreshSteps(); maybeEscalate();
 }
 function maybeEscalate(){
@@ -252,8 +266,8 @@ function maybeEscalate(){
 }
 function sendExtraPhoto(){
   if(!S.needMore)return; S.needMore=false; S.extra=true;
-  add('<div class="photo">📷 do_vach_nuoc.jpg</div>','me');
-  ai(`Mình đã gắn ảnh bổ sung vào hồ sơ #YC-0912 và chuyển lại cho nhân viên sàn <span class="lvl l-auto">AI đã tự chuyển</span>. Mình <b>không</b> tự kết luận từ ảnh. Hạn của bạn vẫn được giữ.
+  add(`<div class="photo">📷 ${CASE[C].extraFile}</div>`,'me');
+  ai(`Mình đã gắn ảnh bổ sung vào hồ sơ ${CASE[C].req} và chuyển lại cho nhân viên sàn <span class="lvl l-auto">AI đã tự chuyển</span>. Mình <b>không</b> tự kết luận từ ảnh. ${S.opened?'Hạn của bạn vẫn được giữ.':'Hạn trả hàng của bạn vẫn đến <b>'+ORDERS[C].deadline+'</b>.'}
   <div class="demo">Điều khiển demo: <button class="btn" onclick="goScreen('console')">Xem Màn 2 · Console trưởng nhóm →</button></div>`);
   refreshSteps();
 }
@@ -269,21 +283,29 @@ function startB(){
     <div class="used"><div class="h">Mô tả lúc bạn đặt · 05/11</div>“Size <b>L</b> · vòng ngực <b>100 cm</b>”<br><span class="tag t-ok">mô tả chưa từng bị sửa</span></div>
   </div>
   Áo mặc chật thì rất bực, mình hiểu. Có một cách kiểm: trải phẳng áo, đo từ nách bên này sang nách bên kia rồi <b>nhân 2</b>. Nếu kết quả nhỏ hơn 100 cm rõ rệt, đó là căn cứ để xét lại.
-  <div class="measure">Vòng ngực đo được: <input id="cm" type="number" min="50" max="150" placeholder="cm"> <button class="btn pri" onclick="measure()">Gửi số đo</button></div>
+  <div class="measure">Vòng ngực đo được: <input id="cm" type="number" min="50" max="150" placeholder="cm"> <button class="btn pri" id="bCm" onclick="measure()">Gửi số đo</button></div>
+  <div id="cmErr" style="font-size:12.5px;color:var(--bad)"></div>
   <div class="box warn"><span class="n">3</span>Khiếu nại <b>vẫn mở</b> · còn ${ORDERS.B.left} (đến ${ORDERS.B.deadline}). Mình không đóng khiếu nại, và shop <b>chưa</b> bị báo gì.</div>
   ${escapeHatch()}`);
 }
 function measure(){
-  const v=parseFloat($('#cm').value); if(!v)return;
+  const v=parseFloat($('#cm').value);
+  if(!(v>=50&&v<=150)){$('#cmErr').textContent='Nhập vòng ngực từ 50 đến 150 cm.';return}
+  // Chỉ nhận một số đo, tránh sinh nhiều nút "Mở yêu cầu" trùng nhau
+  $('#cmErr').textContent=''; $('#cm').disabled=true; $('#bCm').disabled=true; S.cm=v;
+  S.photo=true; // số đo là bằng chứng phía người mua
   me('Mình đo được '+v+' cm');
   if(v<98){
     ai(`<span class="badge b-ok"><span class="n">1</span>Có căn cứ để xét</span><br>
     ${v} cm nhỏ hơn mô tả 100 cm khoảng <b>${(100-v).toFixed(0)} cm</b>, vậy là đủ căn cứ để xét. Bạn bấm <b>“Mở yêu cầu trả hàng”</b> để giữ hạn (đến <b>${ORDERS.B.deadline}</b>); khi bạn mở, mình sẽ gửi mẫu xin bằng chứng cho shop.
     <div class="btns"><button class="btn pri" onclick="this.disabled=true;openReqB()">Mở yêu cầu trả hàng (giữ hạn)</button></div>
     <div style="font-size:12.5px;margin-top:4px">Hoàn tiền: <span class="lvl l-ask">cần shop đồng ý hoặc nhân viên duyệt</span></div>`);
-  }else{
+  }else if(v<=102){
     ai(`<span class="badge b-grey"><span class="n">1</span>Số đo khớp mô tả</span><br>
     ${v} cm khớp mô tả 100 cm (chênh không quá 2 cm), nên mình vẫn chưa thấy căn cứ hàng không đúng mô tả. Khiếu nại của bạn <b>vẫn mở</b>. Nếu bạn muốn người thật xem lại, bấm “Gặp nhân viên ngay”; họ trả lời trong 24 giờ.`);
+  }else{
+    ai(`<span class="badge b-grey"><span class="n">1</span>Số đo không nhỏ hơn mô tả</span><br>
+    ${v} cm lớn hơn mô tả 100 cm, tức áo không nhỏ hơn mô tả lúc đặt, nên mình chưa thấy căn cứ cho việc áo bị chật do sai mô tả. Khiếu nại của bạn <b>vẫn mở</b>. Nếu bạn nghĩ mình đo nhầm hoặc muốn người thật xem lại, bấm “Gặp nhân viên ngay”; họ trả lời trong 24 giờ.`);
   }
 }
 function openReqB(){
@@ -291,7 +313,10 @@ function openReqB(){
   me('Mở yêu cầu trả hàng');
   ai(`<div class="box ok">✓ Đã mở yêu cầu <b>#YC-0931</b>. Hạn của bạn được giữ trong lúc chờ xét.</div>
   <div class="box info">Mình đã gửi mẫu xin bằng chứng cho shop <span class="lvl l-auto">AI đã tự gửi</span> · shop có <b>48 giờ</b> để phản hồi. Mẫu chỉ hỏi thông tin, không buộc tội shop.</div>
-  <div style="font-size:12.5px;margin-top:4px">Hoàn tiền: <span class="lvl l-ask">cần shop đồng ý hoặc nhân viên duyệt</span> · AI không có nút hoàn.</div>`);
+  ${S.photo?'':'Bạn gửi số đo vòng ngực ở tin phía trên để hồ sơ phía bạn đủ nhé.'}
+  <div class="stepsSlot"></div>
+  <div class="demo">Điều khiển demo: <button class="btn" onclick="shopReply()">⏩ Giả lập: shop gửi phản hồi</button></div>`);
+  refreshSteps(); maybeEscalate();
 }
 
 /* ---------- CA LẠ: tin tự do ---------- */
@@ -316,22 +341,47 @@ function free(t){
 }
 
 /* ---------- CONSOLE ---------- */
+function caseFile(){
+  const o=ORDERS[C], k=CASE[C];
+  const id=S.opened?k.req:'CT-2207';
+  const shop=S.shopReplied;
+  if(C==='A')return{id,
+    summary:'Người mua: đo lòng nồi được 5 lít, cho rằng không đúng “6 lít”. '+(shop?'Shop: thông số nhà sản xuất là tổng 6L, lòng nồi 5L.':'Shop chưa phản hồi.')+
+      '<br><b>AI không đề xuất ai đúng ở ca này</b>, vì mô tả lúc đặt không nói rõ “6 lít” là dung tích tổng hay lòng nồi.',
+    cmp:`<div class="used"><div class="h">Lúc đặt · 03/11 (dùng để xét)</div>“Dung tích: 6 lít”</div>
+      <div><div class="h">Hiện tại · sửa 10/11</div><span class="edited"><u>“Dung tích tổng 6L · lòng nồi 5L”</u></span></div>`,
+    ev:[S.photo?'📷 do_long_noi.jpg (người mua)':'người mua chưa gửi ảnh',shop?'📄 thong_so_NSX.pdf (shop)':'shop chưa phản hồi'],
+    toBuyer:{
+      refund:`Nhân viên sàn đã xét hồ sơ ${id}: vì mô tả lúc bạn đặt chỉ ghi “6 lít”, sàn <b>chấp nhận</b> yêu cầu. Bạn sẽ được hoàn <b>${o.price}</b> sau khi gửi trả hàng. Hướng dẫn gửi trả đã có trong mục Đơn hàng.`,
+      reject:`Nhân viên sàn đã xét hồ sơ ${id} và <b>chưa chấp nhận</b> yêu cầu, vì thông số nhà sản xuất cho thấy 6 lít là dung tích tổng. Nếu bạn có thêm bằng chứng, bạn có thể khiếu nại lại trong 3 ngày.`,
+      more:'Nhân viên sàn cần thêm một ảnh đo lòng nồi bằng vạch nước.'}};
+  return{id,
+    summary:'Người mua: áo tem L mặc chật, cho rằng không đúng mô tả. Tem áo ghi L, khớp mô tả lúc đặt. '+
+      (S.cm?`Số đo người mua gửi: <b>${S.cm} cm</b> (mô tả lúc đặt: 100 cm). `:'Người mua chưa gửi số đo. ')+(shop?'Shop: bảng size L có vòng ngực 100 cm.':'Shop chưa phản hồi.')+
+      '<br><b>AI không đề xuất ai đúng ở ca này</b>; nhân viên đối chiếu số đo với mô tả lúc đặt.',
+    cmp:`<div class="used"><div class="h">Lúc đặt · 05/11 (dùng để xét)</div>“Size L · vòng ngực 100 cm”</div>
+      <div><div class="h">Hiện tại</div>Không đổi</div>`,
+    ev:['📷 tem_ao.jpg (người mua)',S.cm?`số đo ${S.cm} cm (người mua)`:'người mua chưa gửi số đo',shop?'📄 bang_size.png (shop)':'shop chưa phản hồi'],
+    toBuyer:{
+      refund:`Nhân viên sàn đã xét hồ sơ ${id}: số đo cho thấy áo nhỏ hơn mô tả lúc bạn đặt (vòng ngực 100 cm), sàn <b>chấp nhận</b> yêu cầu. Bạn sẽ được hoàn <b>${o.price}</b> sau khi gửi trả hàng. Hướng dẫn gửi trả đã có trong mục Đơn hàng.`,
+      reject:`Nhân viên sàn đã xét hồ sơ ${id} và <b>chưa chấp nhận</b> yêu cầu, vì bằng chứng chưa cho thấy áo khác mô tả lúc đặt (Size L · vòng ngực 100 cm). Nếu bạn có thêm bằng chứng, bạn có thể khiếu nại lại trong 3 ngày.`,
+      more:'Nhân viên sàn cần thêm một ảnh đo vòng ngực áo có thước.'}};
+}
 function renderConsole(){
   const cb=$('#cbody');
-  if(C!=='A'||!S.esc){
-    cb.innerHTML=`<div class="box info">Chưa có hồ sơ nào được chuyển lên trưởng nhóm cho ca này.<br>Ở ca A: mở yêu cầu → gửi ảnh → giả lập shop phản hồi, rồi quay lại đây.</div>`;return;
+  if(!S.esc){
+    cb.innerHTML=`<div class="box info">Chưa có hồ sơ nào được chuyển lên trưởng nhóm cho ca này.<br>${C==='A'?'Ở ca A: mở yêu cầu → gửi ảnh → giả lập shop phản hồi':'Ở ca B: gửi số đo dưới 98 cm → mở yêu cầu → giả lập shop phản hồi'}, hoặc bấm “Gặp nhân viên ngay”, rồi quay lại đây.</div>`;return;
   }
+  const o=ORDERS[C], f=caseFile();
   cb.innerHTML=`
-  <div class="kv"><b>Hồ sơ</b> #YC-0912 · ${ORDERS.A.id} · ${ORDERS.A.name} · ${ORDERS.A.price}</div>
-  <div class="kv"><b>Hạn người mua</b> đã giữ (mở yêu cầu 13/11) · <b>Hạn trả lời</b> 15:00 14/11</div>
-  <div class="sec"><h3><span class="n">6</span>Tóm tắt trung lập của AI</h3>
-    Người mua: đo lòng nồi được 5 lít, cho rằng không đúng “6 lít”. Shop: thông số nhà sản xuất là tổng 6L, lòng nồi 5L.<br>
-    <b>AI không đề xuất ai đúng ở ca này</b>, vì mô tả lúc đặt không nói rõ “6 lít” là dung tích tổng hay lòng nồi.</div>
+  <div class="kv"><b>Hồ sơ</b> ${f.id}${S.opened?'':' (người mua chưa mở yêu cầu)'} · ${o.id} · ${o.name} · ${o.price}</div>
+  <div class="kv"><b>Hạn người mua</b> ${S.opened?'đã giữ (mở yêu cầu 13/11)':'chưa giữ · hết hạn '+o.deadline} · <b>Hạn trả lời</b> 15:00 14/11</div>
+  <div class="sec"><h3><span class="n">6</span>Tóm tắt trung lập của AI</h3>${f.summary}</div>
   <div class="sec"><h3><span class="n">5</span>Đối chiếu mô tả</h3>
-    <div class="cmp"><div class="used"><div class="h">Lúc đặt · 03/11 (dùng để xét)</div>“Dung tích: 6 lít”</div>
-    <div><div class="h">Hiện tại · sửa 10/11</div><span class="edited"><u>“Dung tích tổng 6L · lòng nồi 5L”</u></span></div></div>
-    Bằng chứng: 📷 do_long_noi.jpg (người mua) · 📄 thong_so_NSX.pdf (shop)${S.extra?' · 📷 do_vach_nuoc.jpg (người mua, bổ sung)':''}</div>
-  ${S.needMore?'<div class="box warn">Đang chờ người mua bổ sung ảnh đo bằng vạch nước. Các nút quyết định mở lại khi có ảnh mới.</div>':''}
+    <div class="cmp">${f.cmp}</div>
+    Bằng chứng: ${f.ev.join(' · ')}${S.extra?` · 📷 ${CASE[C].extraFile} (người mua, bổ sung)`:''}</div>
+  ${S.decided?'<div class="box ok">Hồ sơ đã có quyết định cuối.</div>':''}
+  ${S.needMore?`<div class="box warn">Đang chờ người mua bổ sung ${CASE[C].more}. Các nút quyết định mở lại khi có ảnh mới.</div>`:''}
   <label class="chk"><input type="checkbox" id="ack"><span>Tôi đã đối chiếu với <b>mô tả lúc đặt</b>, không phải mô tả hiện tại.</span></label>
   <div class="btns">
     <button class="btn pri" disabled data-d="refund">Duyệt hoàn tiền</button>
@@ -344,19 +394,19 @@ function renderConsole(){
   cb.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>decide(b.dataset.d));
 }
 function decide(d){
+  const f=caseFile(), o=ORDERS[C], k=CASE[C];
   // "Xin thêm bằng chứng" chưa phải quyết định cuối: chỉ đánh dấu chờ người mua bổ sung
   if(d==='more')S.needMore=true; else S.decided=d;
   const msg={
-    refund:'Đã duyệt hoàn 1.290.000đ. Người mua sẽ được hướng dẫn gửi trả hàng.',
+    refund:`Đã duyệt hoàn ${o.price}. Người mua sẽ được hướng dẫn gửi trả hàng.`,
     reject:'Đã từ chối khiếu nại, kèm lý do. Người mua vẫn có đường khiếu nại lại.',
     more:'Đã xin thêm bằng chứng. Hồ sơ giữ nguyên, hạn của người mua vẫn được giữ.'}[d];
   $('#cres').innerHTML=`<div class="box ok">${msg}</div><button class="btn" onclick="goScreen('chat')">← Xem người mua thấy gì</button>`;
   document.querySelectorAll('#cbody [data-d]').forEach(b=>b.disabled=true);
-  const toBuyer={
-    refund:`Nhân viên sàn đã xét hồ sơ #YC-0912: vì mô tả lúc bạn đặt chỉ ghi “6 lít”, sàn <b>chấp nhận</b> yêu cầu. Bạn sẽ được hoàn <b>1.290.000đ</b> sau khi gửi trả hàng. Hướng dẫn gửi trả đã có trong mục Đơn hàng.`,
-    reject:`Nhân viên sàn đã xét hồ sơ #YC-0912 và <b>chưa chấp nhận</b> yêu cầu, vì thông số nhà sản xuất cho thấy 6 lít là dung tích tổng. Nếu bạn có thêm bằng chứng, bạn có thể khiếu nại lại trong 3 ngày.`,
-    more:`Nhân viên sàn cần thêm một ảnh đo lòng nồi bằng vạch nước. Hạn của bạn <b>vẫn được giữ</b>.
-    <div class="btns"><button class="btn pri" onclick="this.disabled=true;sendExtraPhoto()">Gửi ảnh đo bằng vạch nước</button></div>`}[d];
+  const toBuyer=d==='more'
+    ?`${f.toBuyer.more} Hạn của bạn <b>${S.opened?'vẫn được giữ':'vẫn đến '+o.deadline}</b>.
+    <div class="btns"><button class="btn pri" onclick="this.disabled=true;sendExtraPhoto()">Gửi ${k.more}</button></div>`
+    :f.toBuyer[d];
   staff(toBuyer); refreshSteps();
 }
 
