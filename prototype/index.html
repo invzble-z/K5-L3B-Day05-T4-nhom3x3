@@ -172,7 +172,7 @@ function stepsHTML(){
   const o=ORDERS[C];
   const st=[
     {t:'Bạn mở yêu cầu trả hàng (giữ hạn đến '+o.deadline+')',d:S.opened},
-    {t:'Bằng chứng: ảnh của bạn'+(S.photo?' ✓':'')+' · shop phản hồi trong 48 giờ'+(S.shopReplied?' ✓':''),d:S.photo&&S.shopReplied},
+    {t:S.needMore?'Nhân viên cần thêm ảnh đo bằng vạch nước của bạn':'Bằng chứng: ảnh của bạn'+(S.photo?' ✓':'')+' · shop phản hồi trong 48 giờ'+(S.shopReplied?' ✓':''),d:S.photo&&S.shopReplied&&!S.needMore},
     {t:'Nhân viên sàn quyết (trả lời trong 24 giờ)',d:!!S.decided}
   ];
   let nowSet=false;
@@ -250,6 +250,13 @@ function maybeEscalate(){
   ai(`Hồ sơ đã đủ bằng chứng của cả hai bên. Mình đã chuyển cho nhân viên sàn <span class="lvl l-auto">AI đã tự chuyển</span>; họ trả lời trước <b>15:00 14/11</b>. Mình sẽ báo bạn ngay trong chat này khi có kết quả.
   <div class="demo">Điều khiển demo: <button class="btn" onclick="goScreen('console')">Xem Màn 2 · Console trưởng nhóm →</button></div>`);
 }
+function sendExtraPhoto(){
+  if(!S.needMore)return; S.needMore=false; S.extra=true;
+  add('<div class="photo">📷 do_vach_nuoc.jpg</div>','me');
+  ai(`Mình đã gắn ảnh bổ sung vào hồ sơ #YC-0912 và chuyển lại cho nhân viên sàn <span class="lvl l-auto">AI đã tự chuyển</span>. Mình <b>không</b> tự kết luận từ ảnh. Hạn của bạn vẫn được giữ.
+  <div class="demo">Điều khiển demo: <button class="btn" onclick="goScreen('console')">Xem Màn 2 · Console trưởng nhóm →</button></div>`);
+  refreshSteps();
+}
 
 /* ---------- CASE B ---------- */
 function startB(){
@@ -323,7 +330,8 @@ function renderConsole(){
   <div class="sec"><h3><span class="n">5</span>Đối chiếu mô tả</h3>
     <div class="cmp"><div class="used"><div class="h">Lúc đặt · 03/11 (dùng để xét)</div>“Dung tích: 6 lít”</div>
     <div><div class="h">Hiện tại · sửa 10/11</div><span class="edited"><u>“Dung tích tổng 6L · lòng nồi 5L”</u></span></div></div>
-    Bằng chứng: 📷 do_long_noi.jpg (người mua) · 📄 thong_so_NSX.pdf (shop)</div>
+    Bằng chứng: 📷 do_long_noi.jpg (người mua) · 📄 thong_so_NSX.pdf (shop)${S.extra?' · 📷 do_vach_nuoc.jpg (người mua, bổ sung)':''}</div>
+  ${S.needMore?'<div class="box warn">Đang chờ người mua bổ sung ảnh đo bằng vạch nước. Các nút quyết định mở lại khi có ảnh mới.</div>':''}
   <label class="chk"><input type="checkbox" id="ack"><span>Tôi đã đối chiếu với <b>mô tả lúc đặt</b>, không phải mô tả hiện tại.</span></label>
   <div class="btns">
     <button class="btn pri" disabled data-d="refund">Duyệt hoàn tiền</button>
@@ -332,11 +340,12 @@ function renderConsole(){
   </div>
   <div style="font-size:12px;color:var(--mut)"><span class="lvl l-ask">thuc_hien_hoan_tien: cần duyệt</span> <span class="lvl l-no">tu_choi_khieu_nai: chỉ người làm</span></div>
   <div id="cres"></div>`;
-  $('#ack').onchange=e=>cb.querySelectorAll('[data-d]').forEach(b=>b.disabled=!e.target.checked||!!S.decided);
+  $('#ack').onchange=e=>cb.querySelectorAll('[data-d]').forEach(b=>b.disabled=!e.target.checked||!!S.decided||!!S.needMore);
   cb.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>decide(b.dataset.d));
 }
 function decide(d){
-  S.decided=d;
+  // "Xin thêm bằng chứng" chưa phải quyết định cuối: chỉ đánh dấu chờ người mua bổ sung
+  if(d==='more')S.needMore=true; else S.decided=d;
   const msg={
     refund:'Đã duyệt hoàn 1.290.000đ. Người mua sẽ được hướng dẫn gửi trả hàng.',
     reject:'Đã từ chối khiếu nại, kèm lý do. Người mua vẫn có đường khiếu nại lại.',
@@ -346,7 +355,8 @@ function decide(d){
   const toBuyer={
     refund:`Nhân viên sàn đã xét hồ sơ #YC-0912: vì mô tả lúc bạn đặt chỉ ghi “6 lít”, sàn <b>chấp nhận</b> yêu cầu. Bạn sẽ được hoàn <b>1.290.000đ</b> sau khi gửi trả hàng. Hướng dẫn gửi trả đã có trong mục Đơn hàng.`,
     reject:`Nhân viên sàn đã xét hồ sơ #YC-0912 và <b>chưa chấp nhận</b> yêu cầu, vì thông số nhà sản xuất cho thấy 6 lít là dung tích tổng. Nếu bạn có thêm bằng chứng, bạn có thể khiếu nại lại trong 3 ngày.`,
-    more:`Nhân viên sàn cần thêm một ảnh đo lòng nồi bằng vạch nước. Hạn của bạn <b>vẫn được giữ</b>.`}[d];
+    more:`Nhân viên sàn cần thêm một ảnh đo lòng nồi bằng vạch nước. Hạn của bạn <b>vẫn được giữ</b>.
+    <div class="btns"><button class="btn pri" onclick="this.disabled=true;sendExtraPhoto()">Gửi ảnh đo bằng vạch nước</button></div>`}[d];
   staff(toBuyer); refreshSteps();
 }
 
