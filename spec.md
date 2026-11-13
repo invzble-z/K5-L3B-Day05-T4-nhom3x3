@@ -75,9 +75,9 @@ Bây giờ: **13/11/2026 15:00**.
 
 **Lời thoại khi tiếp nhận**
 
-> Mình đã đối chiếu mô tả lúc bạn đặt ngày **03/11**. Bản đó ghi “Dung tích: 6 lít” và chưa nói rõ đây là dung tích tổng hay dung tích lòng nồi. Bản shop cập nhật ngày **10/11** ghi lòng nồi 5 lít. Nhân viên sẽ xét theo mô tả lúc bạn đặt.
+> Mình xét theo **mô tả lúc bạn đặt (03/11)**: “Dung tích: 6 lít”, chưa rõ là tổng hay lòng nồi. Bản shop sửa ngày **10/11** (lòng nồi 5 lít) **không** dùng để xét.
 >
-> Hiện mình chưa đủ căn cứ để kết luận. Bạn có thể mở yêu cầu trước **23:59 ngày 15/11** để giữ hạn, rồi gửi ảnh đo lòng nồi có vạch đo rõ. Khi yêu cầu được mở, mình sẽ xin thông số của nhà sản xuất từ shop.
+> **Chưa đủ căn cứ**, nên mình không tự kết luận. Mở yêu cầu trước **23:59 15/11** để giữ hạn, rồi gửi ảnh đo lòng nồi có vạch rõ. Khi bạn mở yêu cầu, mình sẽ xin shop thông số nhà sản xuất.
 
 **Luồng xử lý**
 
@@ -100,9 +100,10 @@ Bây giờ: **13/11/2026 15:00**.
 **Tin người mua:** "Áo ghi L mà mặc như M, shop lừa đảo, hoàn tiền cho mình" (kèm ảnh tem áo ghi **L**). Đơn DH-4502, mô tả lúc đặt (05/11): "Size L · vòng ngực 100 cm", mô tả chưa từng bị sửa (§0).
 
 **AI nói (nguyên văn):**
-> Mình đã xem ảnh bạn gửi: tem áo ghi **L**, và **mô tả lúc bạn đặt (05/11)** ghi "Size L · vòng ngực 100 cm". Size trên tem khớp với mô tả, nên hiện mình **chưa thấy căn cứ** là hàng không đúng mô tả.
-> Áo mặc chật thì rất bực, mình hiểu. Có một cách kiểm: bạn trải phẳng áo, đo từ nách bên này sang nách bên kia rồi nhân 2, chụp ảnh có thước. Nếu kết quả nhỏ hơn 100 cm rõ rệt, đó là căn cứ để xét lại.
-> Mình **không đóng** khiếu nại của bạn. Bạn còn **4 ngày (đến 23:59 17/11)** và có thể nhờ nhân viên xem lại bất cứ lúc nào.
+> Tem áo ghi **L**, khớp **mô tả lúc bạn đặt (05/11)**: "Size L · vòng ngực 100 cm". Hiện mình **chưa thấy căn cứ** là hàng sai mô tả.
+> Áo chật thì bực thật. Bạn đo vòng ngực áo (nách–nách × 2): nếu nhỏ hơn 100 cm rõ rệt, đó là căn cứ để xét lại.
+
+Ngay dưới câu này, dòng ③ cho biết khiếu nại **không bị đóng**, còn bao lâu, và shop chưa bị báo; nút ④ "Gặp nhân viên ngay" luôn hiện.
 
 Câu này **không hứa** hoàn tiền và **không kết luận** shop đúng, chỉ nói "chưa thấy căn cứ". Khung chat luôn ghi người mua đang trò chuyện với **trợ lý AI**, và quyết định cuối do shop hoặc nhân viên sàn đưa ra.
 
@@ -110,7 +111,7 @@ Câu này **không hứa** hoàn tiền và **không kết luận** shop đúng,
 - Nhãn ① **"Tem khớp mô tả lúc đặt · chưa thấy căn cứ"**, màu xám chứ không đỏ, để không mang nghĩa phán xử.
 - ② Bằng chứng đặt cạnh nhau: ảnh tem L và dòng mô tả lúc đặt, có nhãn "mô tả chưa từng bị sửa".
 - Ô nhập số đo vòng ngực.
-- ③ Dòng "Khiếu nại **vẫn mở** · còn 4 ngày (đến 23:59 17/11). Mình không đóng khiếu nại, và shop chưa bị báo gì."
+- ③ Dòng "Khiếu nại **vẫn mở** · còn 4 ngày (đến 23:59 17/11) · shop chưa bị báo gì."
 
 **Làm gì tiếp:**
 - **Gửi số đo:**
@@ -218,7 +219,7 @@ Khi tách `soan_hoan_tien` thành "soạn" (tự làm) và "thực hiện" (cầ
 - **Công cụ:** HTML/JS viết tay với sự hỗ trợ của coding agent.
 - **Phần mock:** toàn bộ dữ liệu (§0) và câu trả lời của AI đều viết sẵn theo §3. Không backend, **không có lời gọi AI thật**, không gửi dữ liệu đi đâu.
 - **Màn 1 · Chat người mua:** chọn ca A (nồi chiên, mô tả bị sửa) hoặc ca B (áo tem L, người bán đúng).
-- **Màn 2 · Console trưởng nhóm:** "ai quyết" ở ca A, nơi duy nhất có nút hoàn tiền / từ chối.
+- **Màn 2 · Console trưởng nhóm:** "ai quyết" ở cả ca A và ca B, nơi duy nhất có nút hoàn tiền / từ chối.
 - **Ô "ca lạ":** người xem gõ tin tự do. Prototype nhận các loại: lời doạ bóc phốt, xin số điện thoại, nghi hàng giả, tự xưng nhân viên, đòi hoàn ngay, hỏi hạn. Không khớp loại nào thì AI rơi về đường an toàn: hỏi lại một câu (đơn nào, sai ở điểm nào), kèm nút gặp nhân viên.
 
 **Ảnh đánh số:**

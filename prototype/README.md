@@ -8,13 +8,13 @@
 ## Cách bấm qua ca khó (demo khoảng 4 phút)
 
 **Ca A: nồi chiên "6 lít", mô tả đã bị shop sửa sau khi bán**
-1. Màn 1 · Chat người mua → chọn ca A. Đọc nhãn ①, thẻ so sánh mô tả ② và thanh trạng thái ③.
+1. Tab **💬 Chat** (Màn 1) → chọn **A · Nồi chiên**. Đọc nhãn ①, thẻ so sánh mô tả ② và thanh trạng thái ③.
 2. Bấm **"Mở yêu cầu trả hàng (giữ hạn)"**. AI tự gửi mẫu xin bằng chứng cho shop, có nhãn "AI đã tự gửi". Hoàn tiền vẫn ở trạng thái "cần duyệt", không có nút.
-3. Bấm **"Gửi ảnh đo lòng nồi"**, rồi **"⏩ Giả lập: shop gửi phản hồi"**. Khi đủ bằng chứng hai bên, AI tự chuyển hồ sơ cho trưởng nhóm.
-4. Bấm **"Xem Màn 2 · Console trưởng nhóm"**. Tick ô "đã đối chiếu mô tả lúc đặt" để mở khoá nút, rồi chọn Duyệt hoàn / Từ chối / Xin thêm bằng chứng.
-5. Bấm **"← Xem người mua thấy gì"** để xem kết quả nhân viên gửi cho người mua.
+3. Bấm **"Gửi ảnh đo lòng nồi"**, rồi **"⏩ Shop phản hồi"** (nút trong khung DEMO). Khi đủ bằng chứng hai bên, AI tự chuyển hồ sơ cho trưởng nhóm.
+4. Bấm **"Mở Console →"** (Màn 2). Tick ô "đã đối chiếu mô tả lúc đặt" để mở khoá nút, rồi chọn Duyệt hoàn / Từ chối / Xin thêm bằng chứng.
+5. Bấm **"← Về chat người mua"** để xem kết quả nhân viên gửi cho người mua.
 
-**Ca B: áo tem L, người bán đúng.** Chọn ca B, nhập số đo vòng ngực. Dưới 98 cm thì AI báo đã đủ căn cứ và hiện nút "Mở yêu cầu trả hàng" để **người mua tự bấm**; sau đó AI mới tự gửi mẫu xin bằng chứng cho shop. Từ 98 cm trở lên thì khiếu nại vẫn mở, AI không từ chối. Sau khi mở yêu cầu: bấm "⏩ Giả lập: shop gửi phản hồi" → "Xem Màn 2" để nhân viên duyệt, từ chối hoặc xin thêm ảnh, giống ca A. Bấm "Gặp nhân viên ngay" ở bất kỳ lúc nào thì hồ sơ cũng hiện trên Màn 2.
+**Ca B: áo tem L, người bán đúng.** Chọn ca B, nhập số đo vòng ngực. Dưới 98 cm thì AI báo đã đủ căn cứ và hiện nút "Mở yêu cầu trả hàng" để **người mua tự bấm**; sau đó AI mới tự gửi mẫu xin bằng chứng cho shop. Từ 98 cm trở lên thì khiếu nại vẫn mở, AI không từ chối. Sau khi mở yêu cầu: bấm "⏩ Shop phản hồi" → "Mở Console →" để nhân viên duyệt, từ chối hoặc xin thêm ảnh, giống ca A. Bấm "Gặp nhân viên ngay" ở bất kỳ lúc nào thì hồ sơ cũng hiện trên Màn 2.
 
 **Ca lạ:** gõ vào ô dưới khung chat. Prototype nhận các loại: lời doạ bóc phốt, xin số điện thoại shop, nghi hàng giả hoặc đòi khoá shop, người tự xưng nhân viên, đòi hoàn ngay, hỏi hạn. Tin không khớp loại nào thì AI hỏi lại một câu (đơn nào, sai ở điểm nào), kèm nút gặp nhân viên.
 
@@ -35,4 +35,4 @@
 | ⑤ | Console: phải tick "đã đối chiếu mô tả lúc đặt" thì mới mở được nút quyết định | G11 | `thuc_hien_hoan_tien`: cần duyệt · `tu_choi_khieu_nai`: chỉ người làm |
 | ⑥ | Tóm tắt trung lập: "AI không đề xuất ai đúng ở ca này" | G2 · chống anchoring | luật ở `spec.md` §4 |
 
-Bảng mức tự chủ của 7 tool và lời hứa với người mua nằm ở cột phải của cả hai màn.
+Cột phải của cả hai màn: lời hứa với người mua, mức tự chủ của 7 tool chia 3 cột (rê chuột lên tool để xem lý do) và chú thích ①–⑥. Công tắc **①–⑥** trên thanh trên cùng bật/tắt các số; nút **↺** làm lại ca.
