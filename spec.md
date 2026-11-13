@@ -50,6 +50,53 @@ Bây giờ: **13/11/2026 15:00**.
 
 ### Kịch bản B — #4 Áo tem L, người bán đúng
 
+*Đường correction: người mua cho rằng shop sai, nhưng bằng chứng lại khớp với mô tả.*
+
+**Tin người mua:** "Áo ghi L mà mặc như M, shop lừa đảo, hoàn tiền cho mình" (kèm ảnh tem áo ghi **L**). Đơn DH-4502, mô tả lúc đặt (05/11): "Size L · vòng ngực 100 cm", mô tả chưa từng bị sửa (§0).
+
+**AI nói (nguyên văn):**
+> Mình đã xem ảnh bạn gửi: tem áo ghi **L**, và **mô tả lúc bạn đặt (05/11)** ghi "Size L · vòng ngực 100 cm". Size trên tem khớp với mô tả, nên hiện mình **chưa thấy căn cứ** là hàng không đúng mô tả.
+> Áo mặc chật thì rất bực, mình hiểu. Có một cách kiểm: bạn trải phẳng áo, đo từ nách bên này sang nách bên kia rồi nhân 2, chụp ảnh có thước. Nếu kết quả nhỏ hơn 100 cm rõ rệt, đó là căn cứ để xét lại.
+> Mình **không đóng** khiếu nại của bạn. Bạn còn **4 ngày (đến 23:59 17/11)** và có thể nhờ nhân viên xem lại bất cứ lúc nào.
+
+Câu này **không hứa** hoàn tiền và **không kết luận** shop đúng, chỉ nói "chưa thấy căn cứ". Khung chat luôn ghi người mua đang trò chuyện với **trợ lý AI**, và quyết định cuối do shop hoặc nhân viên sàn đưa ra.
+
+**Người dùng thấy** (ca B trên prototype, Màn 1):
+- Nhãn ① **"Tem khớp mô tả lúc đặt · chưa thấy căn cứ"**, màu xám chứ không đỏ, để không mang nghĩa phán xử.
+- ② Bằng chứng đặt cạnh nhau: ảnh tem L và dòng mô tả lúc đặt, có nhãn "mô tả chưa từng bị sửa".
+- Ô nhập số đo vòng ngực.
+- ③ Dòng "Khiếu nại **vẫn mở** · còn 4 ngày (đến 23:59 17/11). Mình không đóng khiếu nại, và shop chưa bị báo gì."
+
+**Làm gì tiếp:**
+- **Gửi số đo:**
+  - Dưới 98 cm: AI nói đã đủ căn cứ và hiện nút **"Mở yêu cầu trả hàng (giữ hạn)"**. **Người mua tự bấm**, giống ca A, vì không tool nào trong 7 tool cho AI mở yêu cầu. Sau khi người mua mở, AI mới tự gửi `yeu_cau_bang_chung` cho shop (đúng luật ở §4). Hoàn tiền vẫn **cần shop hoặc nhân viên duyệt**.
+  - Từ 98 cm trở lên: AI nói số đo khớp và giữ nguyên khiếu nại (không đóng).
+- **④ "Gặp nhân viên ngay"** (`chuyen_truong_nhom`).
+- **④ "AI hiểu sai? Sửa lại"**: người mua chọn AI sai ở điểm nào.
+- **Nếu không làm gì:** khiếu nại vẫn mở tới hết hạn 23:59 17/11. AI không tự đóng.
+
+**Ai được báo, sau bao lâu:**
+- **Chưa báo ai ngay.** Shop không nhận tin chỉ vì người mua bực. Shop chỉ được báo **sau khi người mua tự mở yêu cầu** (thường là sau khi số đo cho thấy lệch); lúc đó AI gửi `yeu_cau_bang_chung` và shop có 48 giờ để phản hồi.
+- Nếu người mua bấm gặp nhân viên, trưởng nhóm nhận hồ sơ và trả lời trong 24 giờ.
+
+**Quyết định (1 quyết định = 4 ý):**
+- **Đã cân nhắc:** (a) hỏi lại / đòi thêm bằng chứng · (b) trả lời kèm giới hạn · (c) dừng và chuyển người ngay · (d) từ chối khiếu nại · (e) hoàn tiền cho xong.
+- **Chọn:** (b) trả lời kèm giới hạn ("chưa thấy căn cứ"), kết hợp (a) **hỏi đúng một bằng chứng** là số đo vòng ngực.
+- **Vì sao:**
+  - Bằng chứng hiện có (tem L khớp "Size L") nghiêng về phía shop, nhưng chưa đủ để kết luận. Size có thể đúng mà kích thước vẫn sai.
+  - Một số đo duy nhất phân định được, vì mô tả lúc đặt có con số cụ thể (100 cm).
+  - Người mua tự làm được ngay, không phải chờ ai.
+- **Loại các cách kia vì sao:**
+  - *Chuyển người ngay (c):* người mua phải chờ tới 24 giờ, nhân viên nhận một hồ sơ chưa có thông tin gì mới, trong khi chỉ cần một số đo.
+  - *Từ chối (d):* đóng khiếu nại thì người mua mất quyền, nếu áo thật sự nhỏ hơn mô tả thì không còn đường sửa. "Từ chối cho chắc" cũng là một kiểu sai. AI cũng không có quyền làm việc này (`tu_choi_khieu_nai` cấm với AI, §4).
+  - *Hoàn cho xong (e):* người bán đúng mà vẫn mất tiền và hàng, đúng điều lát cắt muốn tránh. Đây cũng là đường dễ bị lời doạ ("shop lừa đảo") kéo theo.
+  - *Chỉ hỏi lại, không nói gì về tem (a đơn thuần):* người mua lại thấy "cứ bị hỏi lại mà không ai nói còn thiếu gì". Phải nói rõ AI đã thấy gì trước, rồi mới hỏi.
+
+**Loại lỗi:**
+- Đây là **lỗi người dùng / kỳ vọng**: người mua mong áo rộng hơn, chứ shop không sai mô tả.
+- **Cách nói:** không quy lỗi (không nói "bạn chọn sai size"), ghi nhận cảm xúc, đưa căn cứ để người mua tự kiểm.
+- **Cách sửa:** giữ đường lui (khiếu nại vẫn mở, có nút gặp nhân viên). Nếu số đo cho thấy shop sai thì AI **đổi hướng ngay**. Lỗi người dùng không sửa bằng xin lỗi, mà bằng cách cho người dùng một cách tự kiểm.
+
 ### Nguyên tắc HAX/PAIR (trỏ vào chỗ cụ thể — xem ảnh đánh số ở §5)
 
 - **G1 — Làm rõ AI làm được gì** *(kèm Luật AI 134/2025 Điều 11.1)* → dòng cố định ở đầu khung chat Màn 1, ngay trên ①: "Bạn đang trò chuyện với **trợ lý AI** của Sàn Mẫu. Quyết định hoàn tiền hay từ chối do shop hoặc nhân viên sàn đưa ra." Người mua biết mình đang nói với AI, và biết AI không phải người quyết.
@@ -120,6 +167,45 @@ Khi tách `soan_hoan_tien` thành "soạn" (tự làm) và "thực hiện" (cầ
 ---
 
 ## §5. Prototype
+
+- **File:** [`prototype/index.html`](prototype/index.html), một file HTML, mở bằng trình duyệt. Mở `index.html#console` để vào thẳng Màn 2. Hướng dẫn bấm: [`prototype/README.md`](prototype/README.md).
+- **Công cụ:** HTML/JS viết tay với sự hỗ trợ của coding agent.
+- **Phần mock:** toàn bộ dữ liệu (§0) và câu trả lời của AI đều viết sẵn theo §3. Không backend, **không có lời gọi AI thật**, không gửi dữ liệu đi đâu.
+- **Màn 1 · Chat người mua:** chọn ca A (nồi chiên, mô tả bị sửa) hoặc ca B (áo tem L, người bán đúng).
+- **Màn 2 · Console trưởng nhóm:** "ai quyết" ở ca A, nơi duy nhất có nút hoàn tiền / từ chối.
+- **Ô "ca lạ":** người xem gõ tin tự do. Prototype nhận các loại: lời doạ bóc phốt, xin số điện thoại, nghi hàng giả, tự xưng nhân viên, đòi hoàn ngay, hỏi hạn. Không khớp loại nào thì AI rơi về đường an toàn: hỏi lại một câu (đơn nào, sai ở điểm nào), kèm nút gặp nhân viên.
+
+**Ảnh đánh số:**
+
+| Màn 1 · Chat người mua (ca A) | Màn 2 · Console trưởng nhóm |
+|---|---|
+| ![Màn 1](prototype/screen-1-chat.png) | ![Màn 2](prototype/screen-2-console.png) |
+
+| Số | Thể hiện gì | HAX/PAIR | Mức tự chủ |
+|---|---|---|---|
+| ① | Nhãn độ chắc ở đầu câu trả lời ("Chưa đủ căn cứ · cần người xét" ở ca A / "Tem khớp mô tả lúc đặt · chưa thấy căn cứ" ở ca B) | G2 | — |
+| ② | Bằng chứng đặt cạnh nhau: mô tả lúc đặt (dùng để xét) vs mô tả hiện tại (sửa 10/11, không dùng) / ảnh tem vs mô tả lúc đặt | G11 · PAIR Explainability + Trust | `xem_don_hang`: tự làm |
+| ③ | Thanh trạng thái 3 bước + chip "Hạn trả hàng còn 2 ngày · đến 23:59 15/11". Dòng "Hoàn tiền: cần shop hoặc nhân viên duyệt · AI không có nút hoàn" | PAIR Errors + Graceful Failure | `yeu_cau_bang_chung`: tự làm (nhãn "AI đã tự gửi") · `thuc_hien_hoan_tien`: cần duyệt, **không có nút cho AI** |
+| ④ | Nút "AI hiểu sai? Sửa lại" (chọn sai ở điểm nào) và "Gặp nhân viên ngay" | G9 · G8 · G15 | `chuyen_truong_nhom`: tự làm |
+| ⑤ | Console: nút Duyệt hoàn / Từ chối chỉ có ở đây, chỉ mở khoá sau khi tick "Tôi đã đối chiếu mô tả lúc đặt" | G11 | `thuc_hien_hoan_tien`: cần duyệt · `tu_choi_khieu_nai`: chỉ người làm |
+| ⑥ | Tóm tắt trung lập: "AI không đề xuất ai đúng ở ca này" | G2 · chống anchoring | luật ở §4 |
+
+**Quyết định — cách hiện độ chắc / bằng chứng (4 ý):**
+- **Đã cân nhắc:** (a) phần trăm độ tin cậy ("72%") · (b) nhãn bằng chữ + bằng chứng đặt cạnh nhau · (c) chỉ hiện kết luận, ẩn bản mô tả đã sửa.
+- **Chọn:** (b).
+- **Vì sao:** nhãn chữ nói luôn bước tiếp theo ("cần người xét", "chưa thấy căn cứ"). Bằng chứng đặt cạnh nhau cho người mua tự kiểm, đúng tinh thần PAIR "tin đúng mức, không tin tối đa".
+- **Loại (a):** con số không giúp người mua biết phải làm gì, và tạo cảm giác AI đang phán xử ai đúng.
+- **Loại (c):** người mua sẽ không hiểu vì sao shop nói "đã ghi rõ 5L". Hiện bản sửa và gạch chân thì cả hai bên thấy AI xét theo bản nào.
+
+**Quyết định — điều khiển mức tự chủ trên màn hình (4 ý):**
+- **Đã cân nhắc:**
+  - (a) Một nút "Hoàn tiền" cho người mua bấm xác nhận.
+  - (b) Việc cần duyệt hiện thành **trạng thái** ("chờ shop / chờ nhân viên"), nút quyết định chỉ có trên console.
+  - (c) Không hiện gì về hoàn tiền trong chat.
+- **Chọn:** (b), thêm nhãn "AI đã tự gửi / đã tự chuyển" cho việc AI tự làm. Việc cấm thì không có nút nào trong chat.
+- **Vì sao:** người duyệt hoàn tiền phải là bên chịu mất (shop) hoặc trưởng nhóm (§4), không phải người mua.
+- **Loại (a):** người mua là bên được lợi, nên bước xác nhận của họ không chặn được kịch bản #4 và #5.
+- **Loại (c):** người mua không biết hồ sơ đang ở bước nào, trái với lời hứa ở §4.
 
 ---
 
